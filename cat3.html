@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Cat</title>
+    <style type="text/css">
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+
+            font-size: 16px;
+            font-family: sans-serif;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .app {
+            overflow: auto;
+            box-sizing: border-box;
+
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+
+            color: #00ff00;
+            background-color: #000000;
+        }
+
+        .content {
+            white-space: pre;
+            font-size: 0.5rem;
+            font-family: sans-serif;
+            line-height: 1rem;
+        }
+
+        /*
+        .run {
+            width: 6rem;
+            height: 2rem;
+            margin-top: 0.5rem;
+        }
+        */
+
+        :root {
+            --char-opacity: 0.2;
+            --description-opacity: 0.4;
+        }
+
+        @keyframes charAnimation {
+            0% {
+                opacity: var(--char-opacity);
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            60% {
+                opacity: var(--char-opacity);
+            }
+
+            100% {
+                opacity: var(--char-opacity);
+            }
+        }
+
+        @keyframes descriptionAnimation {
+            0% {
+                opacity: var(--description-opacity);
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: var(--description-opacity);
+            }
+        }
+
+        .char {
+            opacity: var(--char-opacity);
+        }
+
+        .description {
+            margin-top: 1rem;
+            animation: descriptionAnimation linear 2s infinite;
+
+            font-family: 'Consolas', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="content"></div>
+        <!--button class="run">Meow</button-->
+        <div class="description">
+            Matrix cat
+        </div>
+    </div>
+    <script type="text/javascript">
+        const Content = document.querySelector('.content');
+        const Run = document.querySelector('.run');
+
+        const content = `
+───────────────────────────────────────
+───▐▀▄───────▄▀▌───▄▄▄▄▄▄▄─────────────
+───▌▒▒▀▄▄▄▄▄▀▒▒▐▄▀▀▒██▒██▒▀▀▄──────────
+──▐▒▒▒▒▀▒▀▒▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▀▄────────
+──▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▄▒▒▒▒▒▒▒▒▒▒▒▒▀▄──────
+▀█▒▒▒█▌▒▒█▒▒▐█▒▒▒▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌─────
+▀▌▒▒▒▒▒▒▀▒▀▒▒▒▒▒▒▀▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐───▄▄
+▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌▄█▒█
+▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒█▀─
+▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▀───
+▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌────
+─▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐─────
+─▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌─────
+──▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐──────
+──▐▄▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▄▌──────
+────▀▄▄▀▀▀▀▀▄▄▀▀▀▀▀▀▀▄▄▀▀▀▀▀▄▄▀────────
+`;
+
+        const lines = content.trim().split(/\n+/).map(line => line.trim());
+
+        const baseDelays = [];
+
+        for (let x = 0; x < lines[0].length; x++) {
+            baseDelays.push(Math.random() * 2);
+        }
+
+        lines.forEach((line, y) => {
+            for (let x = 0; x < line.length; x++) {
+                const Char = document.createElement('span');
+                Char.className = 'char';
+                const duration = 3;
+                const delay = baseDelays[x] + 0.1 * y;
+                Char.style.animation = `${duration}s charAnimation linear ${delay}s infinite`;
+                Char.innerHTML = line[x];
+                Content.appendChild(Char);
+            }
+
+            const Break = document.createElement('br');
+            Content.appendChild(Break);
+        });
+    </script>
+    <script type="text/javascript" src="./common.js"></script>
+</body>
+
+</html>
