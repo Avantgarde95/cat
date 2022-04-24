@@ -7,7 +7,7 @@ const links = [
 
 const Footer = document.createElement('div');
 
-Footer.style.marginTop = '0.5rem';
+Footer.style.marginTop = '1.5rem';
 
 links.forEach(([label, url], index) => {
     const Link = document.createElement('a');
